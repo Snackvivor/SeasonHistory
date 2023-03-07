@@ -1,16 +1,36 @@
 html {
-    /* The nav header is 4.40625rem high, plus 20px for the margin-top of the
+    /* csslint ignore:start */
+    /* The nav header is 3.5rem high, plus 20px for the margin-top of the
        main container. */
-    scroll-padding-top: calc(4.40625rem + 20px);
+    scroll-padding-top: calc(3.5rem + 20px);
+    /* csslint ignore:end */
+}
+
+/* Replacement for `body { background-attachment: fixed; }`, which has
+   performance issues when scrolling on large displays. See #1394. */
+body::before {
+    content: ' ';
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: #f8f8f8;
+    background: url(../img/grid.png) repeat-x;
+    will-change: transform;
+    z-index: -1;
 }
 
 body > .container {
     margin-top: 20px;
+    min-height: 400px;
 }
 
-.navbar.fixed-top {
+.navbar.fixed-top { /* csslint allow: adjoining-classes */
+    /* csslint ignore:start */
     position: -webkit-sticky;
     position: sticky;
+    /* csslint ignore:end */
 }
 
 .source-links {
@@ -19,36 +39,59 @@ body > .container {
 
 .col-md-9 img {
     max-width: 100%;
+    display: inline-block;
+    padding: 4px;
+    line-height: 1.428571429;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin: 20px auto 30px auto;
 }
 
-pre, code {
-    background: #444;
-    color: #e0e2e4;
-    border: 1px solid rgba(0,0,0,0.125);
-    border-radius: 0.25rem;
+h1 {
+    color: #444;
+    font-weight: 400;
+    font-size: 42px;
 }
 
-pre {
-    padding: 0.5em;
+h2, h3, h4, h5, h6 {
+    color: #444;
+    font-weight: 300;
+}
+
+hr {
+    border-top: 1px solid #aaa;
+}
+
+pre, .rst-content tt {
+    max-width: 100%;
+    background: #fff;
+    border: solid 1px #e1e4e5;
+    color: #333;
+    overflow-x: auto;
+}
+
+code.code-large, .rst-content tt.code-large {
+    font-size: 90%;
 }
 
 code {
-    padding: 1px 3px;
+    padding: 2px 5px;
+    background: #fff;
+    border: solid 1px #e1e4e5;
+    color: #333;
+    white-space: pre-wrap;
+    word-wrap: break-word;
 }
 
 pre code {
+    display: block;
+    background: transparent;
     border: none;
-    /* Override styles from hljs theme */
-    background: transparent !important;
-    padding: 0 !important;
-}
-
-a code {
-    color: #00bc8c;
-}
-
-a:hover code {
-    color: #007053;
+    white-space: pre;
+    word-wrap: normal;
+    font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-size: 12px;
 }
 
 kbd {
@@ -59,6 +102,14 @@ kbd {
     border-radius: 3px;
     -webkit-box-shadow: inset 0 -1px 0 rgba(0,0,0,.25);
     box-shadow: inset 0 -1px 0 rgba(0,0,0,.25);
+}
+
+a code {
+    color: #2FA4E7;
+}
+
+a:hover code, a:focus code {
+    color: #157AB5;
 }
 
 footer {
@@ -72,83 +123,143 @@ footer {
     margin-top: 60px;
 }
 
-/* Style the admonitions. */
+/*
+ * Side navigation
+ *
+ * Scrollspy and affixed enhanced navigation to highlight sections and secondary
+ * sections of docs content.
+ */
 
-.admonition {
-    margin-bottom: 1rem;
-    border: 1px solid rgba(0, 0, 0, 0.125);
-    border-radius: 0.25rem;
-    color: #fff;
+.bs-sidebar.affix { /* csslint allow: adjoining-classes */
+    /* csslint ignore:start */
+    position: -webkit-sticky;
+    position: sticky;
+    /* csslint ignore:end */
+    /* The nav header is 3.5rem high, plus 20px for the margin-top of the
+       main container. */
+    top: calc(3.5rem + 20px);
 }
 
-.admonition > .admonition-title {
-    margin: 0;
-    padding: 0.75rem 1rem;
-    background: #444;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
-    border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;
-    font-size: 1rem;
+.bs-sidebar.card { /* csslint allow: adjoining-classes */
+    padding: 0;
+    max-height: 90%;
+    overflow-y: auto;
 }
 
-.admonition > * {
-    margin-left: 1rem;
-    margin-right: 1rem;
+/* Toggle (vertically flip) sidebar collapse icon */
+.bs-sidebar .navbar-toggler span {
+    -moz-transform: scale(1, -1);
+    -webkit-transform: scale(1, -1);
+    -o-transform: scale(1, -1);
+    -ms-transform: scale(1, -1);
+    transform: scale(1, -1);
 }
 
-.admonition > *:not(.admonition-title):first-of-type,
-.admonition > .admonition-title + * {
-    margin-top: 1rem;
+.bs-sidebar .navbar-toggler.collapsed span { /* csslint allow: adjoining-classes */
+    -moz-transform: scale(1, 1);
+    -webkit-transform: scale(1, 1);
+    -o-transform: scale(1, 1);
+    -ms-transform: scale(1, 1);
+    transform: scale(1, 1);
 }
 
-.admonition > *:last-child {
-    margin-bottom: 1rem;
+/* First level of nav */
+.bs-sidebar > .navbar-collapse > .nav {
+    padding-top:    10px;
+    padding-bottom: 10px;
+    border-radius: 5px;
+    width: 100%;
 }
 
-/* Style each kind of admonition. */
-
-.admonition.note, .admonition.note > .admonition-title {
-    border-color: #304f6f;
+/* All levels of nav */
+.bs-sidebar .nav > li > a {
+    display: block;
+    padding: 5px 20px;
+    z-index: 1;
+}
+.bs-sidebar .nav > li > a:hover,
+.bs-sidebar .nav > li > a:focus {
+    text-decoration: none;
+    border-right: 1px solid;
+}
+.bs-sidebar .nav > li > a.active,
+.bs-sidebar .nav > li > a.active:hover,
+.bs-sidebar .nav > li > a.active:focus {
+    font-weight: bold;
+    background-color: transparent;
+    border-right: 1px solid;
 }
 
-.admonition.note > .admonition-title {
-    background: #375a7f;
+.bs-sidebar .nav .nav .nav {
+    margin-left: 1em;
 }
 
-.admonition.warning, .admonition.warning > .admonition-title {
-    border-color: #d58910;
+.bs-sidebar .nav > li > a {
+    font-weight: bold;
 }
 
-.admonition.warning > .admonition-title {
-    background: #f39c12;
-}
-
-.admonition.danger, .admonition.danger > .admonition-title {
-    border-color: #ca4335;
-}
-
-.admonition.danger > .admonition-title {
-    background: #e74c3c;
+.bs-sidebar .nav .nav > li > a {
+    font-weight: normal;
 }
 
 .headerlink {
+    font-family: FontAwesome;
+    font-size: 14px;
     display: none;
     padding-left: .5em;
 }
 
-h1:hover .headerlink, h2:hover .headerlink, h3:hover .headerlink, h4:hover .headerlink, h5:hover .headerlink, h6:hover .headerlink{
+h1:hover .headerlink, h2:hover .headerlink, h3:hover .headerlink, h4:hover .headerlink, h5:hover .headerlink, h6:hover .headerlink {
     display:inline-block;
 }
 
+
+
+.admonition, details {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    text-align: left;
+}
+
+.admonition.note, details.note { /* csslint allow: adjoining-classes */
+    color: #2e6b89;
+    background-color: #e2f0f7;
+    border-color: #bce8f1;
+}
+
+.admonition.warning, details.warning { /* csslint allow: adjoining-classes */
+    color: #7a6032;
+    background-color: #fffae5;
+    border-color: #fbeed5;
+}
+
+.admonition.danger, details.danger { /* csslint allow: adjoining-classes */
+    color: #7f3130;
+    background-color: #fde3e3;
+    border-color: #eed3d7;
+}
+
+.admonition-title, summary {
+    font-weight: bold;
+    text-align: left;
+}
+
+.admonition>p:last-child, details>p:last-child {
+    margin-bottom: 0;
+}
+
 @media (max-width: 991.98px) {
-    .navbar-collapse.show {
+    .navbar-collapse.show { /* csslint allow: adjoining-classes */
         overflow-y: auto;
-        max-height: calc(100vh - 4.40625rem);
+        max-height: calc(100vh - 3.5rem);
     }
 }
 
-.dropdown-item.open {
+.dropdown-item.open { /* csslint allow: adjoining-classes */
     color: #fff;
-    background-color: #375a7f;
+    background-color: #2FA4E7;
 }
 
 .dropdown-submenu > .dropdown-menu {
@@ -172,13 +283,13 @@ h1:hover .headerlink, h2:hover .headerlink, h3:hover .headerlink, h4:hover .head
 }
 
 .dropdown-submenu:hover > a::after {
-    border-left-color: #404040;
+    border-left-color: #fff;
 }
 
 @media (min-width: 992px) {
     .dropdown-menu {
         overflow-y: auto;
-        max-height: calc(100vh - 4.40625rem);
+        max-height: calc(100vh - 3.5rem);
     }
 
     .dropdown-submenu {
@@ -186,10 +297,26 @@ h1:hover .headerlink, h2:hover .headerlink, h3:hover .headerlink, h4:hover .head
     }
 
     .dropdown-submenu > .dropdown-menu {
+        /* csslint ignore:start */
         position: fixed !important;
+        /* csslint ignore:end */
         margin-top: -9px;
         margin-left: -2px;
         border-width: 1px;
         padding: 0.5rem 0;
     }
+
+    .dropdown-submenu.pull-left { /* csslint allow: adjoining-classes */
+        float: none;
+    }
+
+    .dropdown-submenu.pull-left > .dropdown-menu { /* csslint allow: adjoining-classes */
+        left: -100%;
+        margin-left: 10px;
+    }
+}
+
+@media print {
+    /* Remove sidebar when print */
+    .col-md-3 { display: none; }
 }
