@@ -11,7 +11,7 @@ const Path = require("path")
 const fs = require("fs");
 const { writer } = require("repl");
 
-var logger = fs.createWriteStream('sitemap.md', {
+var logger = fs.createWriteStream('index.md', {
     flags: 'a'
 })
     
