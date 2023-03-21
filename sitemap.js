@@ -23,6 +23,9 @@ function ThroughDirectory(Directory, currDepth) {
         var depth = ""
 
         if (fs.statSync(Absolute).isDirectory()){
+
+            console.log(Absolute)
+
             depth += "\n## "
             depth += File + "\n"
             logger.write(depth)
@@ -40,8 +43,6 @@ function ThroughDirectory(Directory, currDepth) {
 function guh() {
 
     logger.write("# Snackvivor Sitemap\n")
-
-
     ThroughDirectory("./Snackvivor-Season-1", 0)
 
 }
