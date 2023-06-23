@@ -43,7 +43,7 @@ function ThroughDirectory(Directory, currDepth) {
 function guh() {
 
     logger.write("# Snackvivor Sitemap\n")
-    ThroughDirectory("./Snackvivor-Season-1", 0)
+    ThroughDirectory("./Snackvivor", 0)
 
 }
 
